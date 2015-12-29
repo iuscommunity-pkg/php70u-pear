@@ -104,8 +104,6 @@ Requires:  %{php_base}-bz2
 # Structures_Graph: none
 # XML_Util: pcre
 # optional: overload and xdebug
-# for /var/www/html ownership
-Requires: httpd-filesystem
 
 Provides:  %{real_name} = %{version}-%{release}
 Conflicts: %{real_name} < %{version}
@@ -344,6 +342,7 @@ fi
 %changelog
 * Tue Dec 29 2015 Carl George <carl.george@rackspace.com> - 1:1.10.1-1.ius
 - Port to IUS from Fedora
+- Remove dependency on httpd-filesystem
 
 * Sat Oct 17 2015 Remi Collet <remi@fedoraproject.org> 1:1.10.1-1
 - update PEAR to 1.10.1
