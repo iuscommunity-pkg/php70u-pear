@@ -38,8 +38,7 @@ License: BSD and LGPLv3+
 Group: Development/Languages
 URL: http://pear.php.net/package/PEAR
 Source0: http://download.pear.php.net/package/PEAR-%{version}%{?pearprever}.tgz
-# wget https://raw.githubusercontent.com/pear/pear-core/stable/install-pear.php
-Source1: install-pear.php
+Source1: https://raw.githubusercontent.com/pear/pear-core/v%{version}/install-pear.php
 Source3: strip.php
 Source10: pear.sh
 Source11: pecl.sh
@@ -343,6 +342,7 @@ fi
 * Tue Dec 29 2015 Carl George <carl.george@rackspace.com> - 1:1.10.1-1.ius
 - Port to IUS from Fedora
 - Remove dependency on httpd-filesystem
+- Change Source1 to a direct url (credit: Steven Barre)
 
 * Sat Oct 17 2015 Remi Collet <remi@fedoraproject.org> 1:1.10.1-1
 - update PEAR to 1.10.1
