@@ -1,3 +1,5 @@
+# IUS spec file for php70u-pear, forked from
+#
 # Fedora spec file for php-pear
 #
 # License: MIT
@@ -22,10 +24,13 @@
 
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
+%define php_base php70u
+%define real_name php-pear
+
 Summary: PHP Extension and Application Repository framework
-Name: php-pear
+Name: %{php_base}-pear
 Version: 1.10.1
-Release: 1%{?dist}
+Release: 1.ius%{?dist}
 Epoch: 1
 # PEAR, PEAR_Manpages, Archive_Tar, XML_Util, Console_Getopt are BSD
 # Structures_Graph is LGPLv3+
@@ -47,9 +52,9 @@ Source24: http://pear.php.net/get/XML_Util-%{xmlutil}.tgz
 Source25: http://pear.php.net/get/PEAR_Manpages-%{manpages}.tgz
 
 BuildArch: noarch
-BuildRequires: php(language) > 5.4
-BuildRequires: php-cli
-BuildRequires: php-xml
+BuildRequires: %{php_base}-common
+BuildRequires: %{php_base}-cli
+BuildRequires: %{php_base}-xml
 BuildRequires: gnupg
 %if %{with_tests}
 BuildRequires:  %{_bindir}/phpunit
@@ -61,35 +66,49 @@ Provides: php-pear(PEAR) = %{version}
 Provides: php-pear(Structures_Graph) = %{structver}
 Provides: php-pear(XML_Util) = %{xmlutil}
 Provides: php-pear(PEAR_Manpages) = %{manpages}
+Provides: %{php_base}-pear(Console_Getopt) = %{getoptver}
+Provides: %{php_base}-pear(Archive_Tar) = %{arctarver}
+Provides: %{php_base}-pear(PEAR) = %{version}
+Provides: %{php_base}-pear(Structures_Graph) = %{structver}
+Provides: %{php_base}-pear(XML_Util) = %{xmlutil}
+Provides: %{php_base}-pear(PEAR_Manpages) = %{manpages}
 
 Provides: php-composer(pear/console_getopt) = %{getoptver}
 Provides: php-composer(pear/archive_tar) = %{arctarver}
 Provides: php-composer(pear/pear-core-minimal) = %{version}
 Provides: php-composer(pear/structures_graph) = %{structver}
 Provides: php-composer(pear/xml_util) = %{xmlutil}
+Provides: %{php_base}-composer(pear/console_getopt) = %{getoptver}
+Provides: %{php_base}-composer(pear/archive_tar) = %{arctarver}
+Provides: %{php_base}-composer(pear/pear-core-minimal) = %{version}
+Provides: %{php_base}-composer(pear/structures_graph) = %{structver}
+Provides: %{php_base}-composer(pear/xml_util) = %{xmlutil}
 
 # Archive_Tar requires 5.2
 # XML_Util, Structures_Graph require 5.3
 # Console_Getopt requires 5.4
 # PEAR requires 5.4
-Requires:  php(language) > 5.4
-Requires:  php-cli
+Requires:  %{php_base}-common
+Requires:  %{php_base}-cli
 # phpci detected extension
 # PEAR (date, spl always builtin):
-Requires:  php-ftp
-Requires:  php-pcre
-Requires:  php-posix
-Requires:  php-tokenizer
-Requires:  php-xml
-Requires:  php-zlib
+Requires:  %{php_base}-ftp
+Requires:  %{php_base}-pcre
+Requires:  %{php_base}-posix
+Requires:  %{php_base}-tokenizer
+Requires:  %{php_base}-xml
+Requires:  %{php_base}-zlib
 # Console_Getopt: pcre
 # Archive_Tar: pcre, posix, zlib
-Requires:  php-bz2
+Requires:  %{php_base}-bz2
 # Structures_Graph: none
 # XML_Util: pcre
 # optional: overload and xdebug
 # for /var/www/html ownership
 Requires: httpd-filesystem
+
+Provides:  %{real_name} = %{version}-%{release}
+Conflicts: %{real_name} < %{version}
 
 
 %description
@@ -323,6 +342,9 @@ fi
 
 
 %changelog
+* Tue Dec 29 2015 Carl George <carl.george@rackspace.com> - 1:1.10.1-1.ius
+- Port to IUS from Fedora
+
 * Sat Oct 17 2015 Remi Collet <remi@fedoraproject.org> 1:1.10.1-1
 - update PEAR to 1.10.1
 
