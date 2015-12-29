@@ -47,7 +47,6 @@ Source24: http://pear.php.net/get/XML_Util-%{xmlutil}.tgz
 Source25: http://pear.php.net/get/PEAR_Manpages-%{manpages}.tgz
 
 BuildArch: noarch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: php(language) > 5.4
 BuildRequires: php-cli
 BuildRequires: php-xml
@@ -97,6 +96,7 @@ Requires: httpd-filesystem
 PEAR is a framework and distribution system for reusable PHP
 components.  This package contains the basic PEAR components.
 
+
 %prep
 %setup -cT
 
@@ -127,8 +127,6 @@ sed -e 's:@BINDIR@:%{_bindir}:' \
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 export PHP_PEAR_SYSCONF_DIR=%{_sysconfdir}
 export PHP_PEAR_SIG_KEYDIR=%{_sysconfdir}/pearkeys
 export PHP_PEAR_SIG_BIN=%{_bindir}/gpg
@@ -236,7 +234,6 @@ echo 'Test suite disabled (missing "--with tests" option)'
 
 
 %clean
-rm -rf $RPM_BUILD_ROOT
 rm new-pear.conf
 
 
@@ -295,7 +292,6 @@ fi
 
 
 %files
-%defattr(-,root,root,-)
 %{peardir}
 %dir %{metadir}
 %{metadir}/.channels
