@@ -30,7 +30,7 @@
 Summary: PHP Extension and Application Repository framework
 Name: %{php_base}-pear
 Version: 1.10.1
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 Epoch: 1
 # PEAR, PEAR_Manpages, Archive_Tar, XML_Util, Console_Getopt are BSD
 # Structures_Graph is LGPLv3+
@@ -104,7 +104,7 @@ Requires:  %{php_base}-bz2
 # XML_Util: pcre
 # optional: overload and xdebug
 
-Provides:  %{real_name} = %{version}-%{release}
+Provides:  %{real_name} = %{version}
 Conflicts: %{real_name} < %{version}
 
 
@@ -339,6 +339,9 @@ fi
 
 
 %changelog
+* Thu Feb 04 2016 Carl George <carl.george@rackspace.com> - 1:1.10.1-2.ius
+- Remove release from virtual provides of stock package
+
 * Tue Dec 29 2015 Carl George <carl.george@rackspace.com> - 1:1.10.1-1.ius
 - Port to IUS from Fedora
 - Remove dependency on httpd-filesystem
