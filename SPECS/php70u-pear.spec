@@ -11,11 +11,11 @@
 %global metadir %{_localstatedir}/lib/pear
 
 %global getoptver 1.4.1
-%global arctarver 1.4.0
+%global arctarver 1.4.2
 # https://pear.php.net/bugs/bug.php?id=19367
 # Structures_Graph 1.0.4 - incorrect FSF address
 %global structver 1.1.1
-%global xmlutil   1.3.0
+%global xmlutil   1.4.2
 %global manpages  1.10.0
 
 # Tests are only run with rpmbuild --with tests
@@ -29,8 +29,8 @@
 
 Summary: PHP Extension and Application Repository framework
 Name: %{php_base}-pear
-Version: 1.10.1
-Release: 2.ius%{?dist}
+Version: 1.10.3
+Release: 1.ius%{?dist}
 Epoch: 1
 # PEAR, PEAR_Manpages, Archive_Tar, XML_Util, Console_Getopt are BSD
 # Structures_Graph is LGPLv3+
@@ -39,7 +39,7 @@ Group: Development/Languages
 URL: http://pear.php.net/package/PEAR
 Source0: http://download.pear.php.net/package/PEAR-%{version}%{?pearprever}.tgz
 Source1: https://raw.githubusercontent.com/pear/pear-core/v%{version}/install-pear.php
-Source3: strip.php
+Source3: cleanup.php
 Source10: pear.sh
 Source11: pecl.sh
 Source12: peardev.sh
@@ -187,8 +187,7 @@ install -m 755 %{SOURCE11} $RPM_BUILD_ROOT%{_bindir}/pecl
 install -m 755 %{SOURCE12} $RPM_BUILD_ROOT%{_bindir}/peardev
 
 # Sanitize the pear.conf
-%{_bindir}/php %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/pear.conf ext_dir >new-pear.conf
-%{_bindir}/php %{SOURCE3} new-pear.conf http_proxy > $RPM_BUILD_ROOT%{_sysconfdir}/pear.conf
+%{_bindir}/php %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/pear.conf %{_datadir}
 
 %{_bindir}/php -r "print_r(unserialize(substr(file_get_contents('$RPM_BUILD_ROOT%{_sysconfdir}/pear.conf'),17)));"
 
@@ -249,9 +248,7 @@ echo 'Test suite disabled (missing "--with tests" option)'
 %endif
 
 
-%clean
-rm new-pear.conf
-
+#clean
 
 %pre
 # Manage relocation of metadata, before update to pear
@@ -339,6 +336,14 @@ fi
 
 
 %changelog
+* Tue Feb 28 2017 Ben Harper <ben.harper@rackspace.com> - 1:1.10.3-1.ius
+- Latest upstream
+- update arctarver to 1.4.2
+- update xmlutil to 1.4.2
+- configuration file updates from Fedora:
+  http://pkgs.fedoraproject.org/cgit/rpms/php-pear.git/commit/?id=1c51aee2a3c717d227ea46bff846e20cea5a2487
+- remove rm new-pear.conf
+
 * Thu Feb 04 2016 Carl George <carl.george@rackspace.com> - 1:1.10.1-2.ius
 - Remove release from virtual provides of stock package
 
