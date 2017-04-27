@@ -24,11 +24,10 @@
 
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 
-%define php_base php70u
-%define real_name php-pear
+%define php php70u
 
 Summary: PHP Extension and Application Repository framework
-Name: %{php_base}-pear
+Name: %{php}-pear
 Version: 1.10.4
 Release: 1.ius%{?dist}
 Epoch: 1
@@ -51,9 +50,9 @@ Source24: http://pear.php.net/get/XML_Util-%{xmlutil}.tgz
 Source25: http://pear.php.net/get/PEAR_Manpages-%{manpages}.tgz
 
 BuildArch: noarch
-BuildRequires: %{php_base}-common
-BuildRequires: %{php_base}-cli
-BuildRequires: %{php_base}-xml
+BuildRequires: %{php}-common
+BuildRequires: %{php}-cli
+BuildRequires: %{php}-xml
 BuildRequires: gnupg
 %if %{with_tests}
 BuildRequires:  %{_bindir}/phpunit
@@ -65,47 +64,47 @@ Provides: php-pear(PEAR) = %{version}
 Provides: php-pear(Structures_Graph) = %{structver}
 Provides: php-pear(XML_Util) = %{xmlutil}
 Provides: php-pear(PEAR_Manpages) = %{manpages}
-Provides: %{php_base}-pear(Console_Getopt) = %{getoptver}
-Provides: %{php_base}-pear(Archive_Tar) = %{arctarver}
-Provides: %{php_base}-pear(PEAR) = %{version}
-Provides: %{php_base}-pear(Structures_Graph) = %{structver}
-Provides: %{php_base}-pear(XML_Util) = %{xmlutil}
-Provides: %{php_base}-pear(PEAR_Manpages) = %{manpages}
+Provides: %{php}-pear(Console_Getopt) = %{getoptver}
+Provides: %{php}-pear(Archive_Tar) = %{arctarver}
+Provides: %{php}-pear(PEAR) = %{version}
+Provides: %{php}-pear(Structures_Graph) = %{structver}
+Provides: %{php}-pear(XML_Util) = %{xmlutil}
+Provides: %{php}-pear(PEAR_Manpages) = %{manpages}
 
 Provides: php-composer(pear/console_getopt) = %{getoptver}
 Provides: php-composer(pear/archive_tar) = %{arctarver}
 Provides: php-composer(pear/pear-core-minimal) = %{version}
 Provides: php-composer(pear/structures_graph) = %{structver}
 Provides: php-composer(pear/xml_util) = %{xmlutil}
-Provides: %{php_base}-composer(pear/console_getopt) = %{getoptver}
-Provides: %{php_base}-composer(pear/archive_tar) = %{arctarver}
-Provides: %{php_base}-composer(pear/pear-core-minimal) = %{version}
-Provides: %{php_base}-composer(pear/structures_graph) = %{structver}
-Provides: %{php_base}-composer(pear/xml_util) = %{xmlutil}
+Provides: %{php}-composer(pear/console_getopt) = %{getoptver}
+Provides: %{php}-composer(pear/archive_tar) = %{arctarver}
+Provides: %{php}-composer(pear/pear-core-minimal) = %{version}
+Provides: %{php}-composer(pear/structures_graph) = %{structver}
+Provides: %{php}-composer(pear/xml_util) = %{xmlutil}
 
 # Archive_Tar requires 5.2
 # XML_Util, Structures_Graph require 5.3
 # Console_Getopt requires 5.4
 # PEAR requires 5.4
-Requires:  %{php_base}-common
-Requires:  %{php_base}-cli
+Requires:  %{php}-common
+Requires:  %{php}-cli
 # phpci detected extension
 # PEAR (date, spl always builtin):
-Requires:  %{php_base}-ftp
-Requires:  %{php_base}-pcre
-Requires:  %{php_base}-posix
-Requires:  %{php_base}-tokenizer
-Requires:  %{php_base}-xml
-Requires:  %{php_base}-zlib
+Requires:  %{php}-ftp
+Requires:  %{php}-pcre
+Requires:  %{php}-posix
+Requires:  %{php}-tokenizer
+Requires:  %{php}-xml
+Requires:  %{php}-zlib
 # Console_Getopt: pcre
 # Archive_Tar: pcre, posix, zlib
-Requires:  %{php_base}-bz2
+Requires:  %{php}-bz2
 # Structures_Graph: none
 # XML_Util: pcre
 # optional: overload and xdebug
 
-Provides:  %{real_name} = %{version}
-Conflicts: %{real_name} < %{version}
+Provides:  php-pear = %{version}
+Conflicts: php-pear < %{version}
 
 
 %description
@@ -130,8 +129,8 @@ do
 done
 cp %{SOURCE1} .
 
-# apply patches on used PEAR during install
-# None \o/
+# apply patches on PEAR needed during install
+# other patches applied on installation tree
 
 sed -e 's:@BINDIR@:%{_bindir}:' \
     -e 's:@LIBDIR@:%{_localstatedir}/lib:' \
@@ -248,8 +247,6 @@ echo 'Test suite disabled (missing "--with tests" option)'
 %endif
 
 
-#clean
-
 %pre
 # Manage relocation of metadata, before update to pear
 if [ -d %{peardir}/.registry -a ! -d %{metadir}/.registry ]; then
@@ -319,7 +316,6 @@ fi
 %{macrosdir}/macros.pear
 %dir %{_localstatedir}/cache/php-pear
 %dir %{_sysconfdir}/pear
-%{!?_licensedir:%global license %%doc}
 %license LICENSE*
 %doc README*
 %dir %{_docdir}/pear
