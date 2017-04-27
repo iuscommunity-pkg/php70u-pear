@@ -103,8 +103,8 @@ Requires:  %{php}-bz2
 # XML_Util: pcre
 # optional: overload and xdebug
 
-Provides:  php-pear = %{version}
-Conflicts: php-pear < %{version}
+Provides:  php-pear = %{epoch}:%{version}-%{release}
+Conflicts: php-pear < %{epoch}:%{version}-%{release}
 
 
 %description
@@ -334,6 +334,7 @@ fi
 %changelog
 * Thu Apr 27 2017 Carl George <carl.george@rackspace.com> - 1:1.10.4-1.ius
 - Latest upstream
+- Add %%epoch to provides/conflicts to properly provide/conflict with the stock name
 
 * Tue Feb 28 2017 Ben Harper <ben.harper@rackspace.com> - 1:1.10.3-1.ius
 - Latest upstream
