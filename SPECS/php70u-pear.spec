@@ -22,8 +22,6 @@
 # Can't be run in mock / koji because PEAR is the first package
 %global with_tests 0%{?_with_tests:1}
 
-%global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
-
 %define php php70u
 
 Summary: PHP Extension and Application Repository framework
@@ -192,7 +190,7 @@ install -m 755 %{SOURCE12} $RPM_BUILD_ROOT%{_bindir}/peardev
 
 
 install -m 644 -D macros.pear \
-           $RPM_BUILD_ROOT%{macrosdir}/macros.pear
+           $RPM_BUILD_ROOT%{rpmmacrodir}/macros.pear
 
 # apply patches on installed PEAR tree
 pushd $RPM_BUILD_ROOT%{peardir} 
@@ -313,7 +311,7 @@ fi
 %{metadir}/pkgxml
 %{_bindir}/*
 %config(noreplace) %{_sysconfdir}/pear.conf
-%{macrosdir}/macros.pear
+%{rpmmacrodir}/macros.pear
 %dir %{_localstatedir}/cache/php-pear
 %dir %{_sysconfdir}/pear
 %license LICENSE*
@@ -335,6 +333,7 @@ fi
 * Thu Apr 27 2017 Carl George <carl.george@rackspace.com> - 1:1.10.4-1.ius
 - Latest upstream
 - Add %%epoch to provides/conflicts to properly provide/conflict with the stock name
+- Use correct macros directory via %%rpmmacrodir (from epel-rpm-macros)
 
 * Tue Feb 28 2017 Ben Harper <ben.harper@rackspace.com> - 1:1.10.3-1.ius
 - Latest upstream
